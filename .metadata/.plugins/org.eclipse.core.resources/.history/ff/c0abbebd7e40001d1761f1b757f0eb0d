@@ -1,0 +1,16 @@
+package allProblems;
+
+import java.util.Scanner;
+
+public class BJ_1764{
+	public static void main() {
+		Scanner sc = new Scanner(System.in);
+		int N = Integer.parseInt(sc.nextLine());
+		int M = Integer.parseInt(sc.nextLine());
+		
+		
+	}
+	
+}
+
+

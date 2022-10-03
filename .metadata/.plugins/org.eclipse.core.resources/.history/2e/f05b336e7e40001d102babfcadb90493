@@ -1,0 +1,10 @@
+package allProblems;
+
+public class BJ_1764{
+	public static void main() {
+		Scanner sc = new Scanner(System.in);
+	}
+	
+}
+
+

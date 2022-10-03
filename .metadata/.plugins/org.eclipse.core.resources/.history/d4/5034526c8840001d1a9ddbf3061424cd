@@ -1,0 +1,57 @@
+package allProblems;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
+
+public class BJ_1764 {
+	public static void main(String[] args) {
+		Scanner sc = new Scanner(System.in);
+
+		int N = sc.nextInt();
+		int M = sc.nextInt();
+		sc.nextLine();
+		
+		System.out.println(N);
+		System.out.println(M);
+		
+		String[] neverHeard = new String[N];
+		String[] neverSeen = new String[M];
+
+		for(int i = 0; i < N; i++) {
+			neverHeard[i] = sc.nextLine();
+			System.out.println(neverHeard[i]);
+			System.out.println("ii");
+		}
+		for(int i = 0; i < M; i++) {
+			neverSeen[i] = sc.nextLine();
+			System.out.println(neverSeen[i]);
+			System.out.println("dd");
+		}
+		
+		ArrayList<String> common = new ArrayList<>();
+		for(int i = 0; i < N; i++) {
+			for(int j = 0; j < M; j++) {
+				if(neverHeard[i] == neverSeen[j]) {
+					common.add(neverHeard[i]);
+				}
+			}
+		}
+		int num = common.size();
+		Collections.sort(common);
+		
+		if(common.isEmpty() == false) {
+			System.out.println(num);
+			for(int i = 0; i < num; i++) {
+				System.out.println(common.get(i));
+			}
+			
+		} 
+
+		
+		
+		
+	
+		
+	}
+}
