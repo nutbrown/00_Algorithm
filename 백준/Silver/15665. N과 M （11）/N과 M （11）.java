@@ -1,10 +1,10 @@
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.Scanner;
 
-// 7번이랑 11번이랑 똑같지 않나
+// 7번이랑 11번 차이 : 4가 2번 들어올때 같은 수로 보나 다른 수로 보나 (2 4 / 2 4 4) 
+// ArrayList가 있어야 중복 숫자를 안 받을 때 편하다
 public class Main {
 	static int N;
 	static int M;
