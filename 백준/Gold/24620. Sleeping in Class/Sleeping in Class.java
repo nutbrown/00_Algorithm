@@ -5,6 +5,7 @@ import java.util.Scanner;
 public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
+		// **누락된 break를 넣어줘서 시간초과 해결
 		
 		int T = sc.nextInt();
 		for(int t = 0; t < T; t++) {
@@ -59,7 +60,8 @@ public class Main {
 					// 꺼냈더니 idx가 맨 마지막이라면 최소랑 비교
 					if(idx == N - 1) {
 						if(cnt < min) min = cnt;
-						// 하고 다음으로 넘어감. 더 할 필요 없음
+						// 제일 먼저 마지막에 도착했으니까 제일 작은 값
+						// 이 큐는 더 할 필요 없음 **break 추가
 						break;
 					}
 					
@@ -73,14 +75,12 @@ public class Main {
 						if(arr[j] == arr[idx] + interval) {
 							// 뒷 간격을 찾았다면 큐에 넣음
 							q.add(new int[] {j, cnt + (j - idx - 1), interval});
-							// 찾았으면 뒤에는 없으니까 탐색할 필요 없음
+							// 찾았으면 뒤에는 없으니까 탐색할 필요 없음 **break 추가
 							break;
 						}
 					}
-					
 				}
 			}
-			
 			
 			System.out.println(min);
 		}
