@@ -40,7 +40,6 @@ public class Main {
 				visited[i][j] = 1;
 				move(i, j, 1, map[i][j]);
 				visited[i][j] = 0;
-				checkO(i, j);
 			}
 		}
 		
@@ -62,6 +61,16 @@ public class Main {
 				// 범위 밖이면, 이미 방문했으면 안 함
 				if(nr < 0 || nr >= N || nc < 0 || nc >= M || visited[nr][nc] == 1) continue;
 				
+				// (ㅗ 모양 고려) 2번 간 상황에서 두 군데로 진출해야 함
+				// cnt가 1, 3이 아니라 2일 때 두 갈래로 나가야 함
+				if(cnt == 2) {
+					visited[nr][nc] = 1;
+					// nr, nc를 방문했지만
+					// 여전히 같은 자리인 cr, cc에서 다른 갈래로 나갈 것임
+					move(cr, cc, cnt + 1, sum + map[nr][nc]);
+					visited[nr][nc] = 0;
+				}
+
 				// 방문체크, 이동, 방문체크 해제
 				visited[nr][nc] = 1;
 				move(nr, nc, cnt + 1, sum + map[nr][nc]);
@@ -69,31 +78,5 @@ public class Main {
 			}
 		}
 		
-	}
-	
-	static void checkO(int i, int j) {
-		// ㅗ모양 처리
-		/*	D	  	  D		D D D	  D
-		 * 	D D		D D		  D		D D D
-		 * 	D		  D
-		 * 
-		 * */
-		
-		// 세로로 긴 모양
-		if(j + 1 < M && i + 2 < N) {
-			int sum = map[i][j] + map[i + 1][j] + map[i + 2][j] + map[i + 1][j + 1];
-			max = Math.max(max, sum);
-			
-			sum = map[i + 1][j] + map[i][j + 1] + map[i + 1][j + 1] + map[i + 2][j + 1];
-			max = Math.max(max, sum);
-		}
-		// 가로로 긴 모양
-		if(j + 2 < M && i + 1 < N) {
-			int sum = map[i][j] + map[i][j + 1] + map[i][j + 2] + map[i + 1][j + 1];
-			max = Math.max(max, sum);
-
-			sum = map[i][j + 1] + map[i + 1][j] + map[i + 1][j + 1] + map[i + 1][j + 2];
-			max = Math.max(max, sum);
-		}
 	}
 }
