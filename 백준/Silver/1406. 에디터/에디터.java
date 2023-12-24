@@ -48,7 +48,8 @@ public class Main {
 				stk1.add(ch);
 			}
 		}
-		
+
+		// 출력을 잘못하면 50% 시간초과
 		StringBuilder sb = new StringBuilder(); 
 		while(!stk1.empty()) {
 			stk2.add(stk1.pop());
