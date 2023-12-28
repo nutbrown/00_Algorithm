@@ -23,6 +23,7 @@ public class Main {
 			int temp = i;
 			
 			// 0으로 초기화
+			// 이렇게하지 않고 new int[]로 초기화하면 메모리초과
 			Arrays.fill(arr, 0);
 			
 			// 각 자릿수 체크 : 마지막 한 자리 숫자를 나누기 10하면 0이 됨
