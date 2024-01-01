@@ -9,7 +9,9 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.StringTokenizer;
 
+// 시간초과가 굉장히 많이 나는 문제
 class Main {
+	//// 1. 변수를 static으로 빼줌
 	static int N;
 	static int M;
 	static ArrayList<Integer>[] com;
@@ -62,7 +64,8 @@ class Main {
 			st = new StringTokenizer(br.readLine());
 			int a = Integer.parseInt(st.nextToken());
 			int b = Integer.parseInt(st.nextToken());
-			
+
+			//// 2. 같은 구조여도 인접리스트 방식 반대로 하면 시간초과 남
 			com[a].add(b);
 		}
 		
@@ -71,12 +74,39 @@ class Main {
 		// 이 최댓값을 가진 컴퓨터 번호를 오름차순으로
 		cnt = new int[N + 1];
 		
+		// 방문배열
+		//// 3. 방문배열을 int로하면 시간초과 남. 꽤 큰 차이를 보임
 		visited = new boolean[N + 1];
 		queue = new LinkedList<>();
-
+		
+		
 		// 각각 컴퓨터에서 시작
 		for(int i = 1; i <= N; i++) {
-			bfs(i);
+			//// 4. 객체를 new로 새로 생성하는데 시간이 많이 쓰인다 함
+			// 방문 배열 재활용
+			Arrays.fill(visited, false);
+			
+			// 큐 재활용
+			queue.clear();
+			
+			// 첫 노드 방문
+			visited[i] = true;
+			queue.offer(i);
+			
+			while(!queue.isEmpty()) {
+				int node = queue.poll();
+				
+				// node는 j에게 해킹당할 수 있다
+				for(int j : com[node]) {
+					if(!visited[j]) {
+						visited[j] = true;
+						queue.offer(j);
+						// j가 node를 해킹할 수 있는 것
+						// j가 해킹할 수 있는 컴퓨터 수 증가
+						cnt[j]++;
+					}
+				}
+			}
 		}
 		
 		// 최댓값 구하기
@@ -86,7 +116,8 @@ class Main {
 		}
 		//System.out.println(max);
 
-		// 최댓값 가진 정점 출력
+		//// 5. StringBuilder 출력말고 BufferedWriter로 출력하고나서야 시간초과 안남
+		// 최댓값 가진 정점 출력 -> 시간초과 해결
 		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
 		for(int i = 1; i <= N; i++) {
 			if(cnt[i] == max) bw.write(i + " ");
@@ -95,31 +126,6 @@ class Main {
 		bw.close();
 	}
 	
-	public static void bfs(int i) {
-		// 방문 배열 재활용
-		Arrays.fill(visited, false);
-		
-		// 큐 재 생성하지말고 재활용
-		queue.clear();
-		
-		visited[i] = true;
-		queue.offer(i);
-		
-		while(!queue.isEmpty()) {
-			int node = queue.poll();
-			
-			// node는 j에게 해킹당할 수 있다
-			for(int j : com[node]) {
-				if(!visited[j]) {
-					visited[j] = true;
-					queue.offer(j);
-					// j가 node를 해킹할 수 있는 것
-					// j가 해킹할 수 있는 컴퓨터 수 증가
-					cnt[j]++;
-				}
-			}
-		}
-
-	}
+	
 }
 
