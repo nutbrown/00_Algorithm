@@ -4,7 +4,7 @@ public class Main {
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
 		
-		long N = sc.nextInt();
+		int N = sc.nextInt();
 		int A = sc.nextInt();
 		
 		// N * N-1 * N-2 * ... 1 안에
@@ -19,16 +19,12 @@ public class Main {
 		// 20을 4로 나눴을 때 몇 개 +
 		// 20을 8로 나눴을 때 몇 개 + 
 		// 20을 16로 나눴을 때 몇 개 = 를 더하면 된다
-
-		if (N == 0 || N == 1) {
-            System.out.println(0);
-            return;
-		}
 		
 		int cnt = 0;
 		int i = 1;
 		while(Math.pow(A, i) <= N) {
-			cnt += N / (long)Math.pow(A, i);
+			// (int)로 변환하지 않으면 에러
+			cnt += N / (int)Math.pow(A, i);
 			i++;
 		}
 
@@ -36,7 +32,7 @@ public class Main {
 		// 20보다 작은 2의 배수 10개
 		// 다시 10개를 2로 나누면 5개
 		// 다시 5개를 2로 나누면 2개
-		// 다시 2개를 2로 나누면 1개
+		// 다시 2개를 2로 나누면 1개 = 를 더하면 된다
 //		int cnt = 0;
 //		int x = N;
 //		while(x > 0) {
