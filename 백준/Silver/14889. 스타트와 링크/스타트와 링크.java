@@ -5,7 +5,6 @@ public class Main {
 	static int[][] stats;
 	static int min;
 	static boolean[] isStart;
-	static boolean[] visited;
 	
 	public static void main(String[] args) {
 		Scanner sc = new Scanner(System.in);
@@ -27,7 +26,6 @@ public class Main {
 		
 		// N/2명과 N/2명을 조합으로 구한다
 		isStart = new boolean[N + 1];
-		visited = new boolean[N + 1];
 		combi(0, 1);
 		
 		System.out.println(min);
@@ -57,12 +55,17 @@ public class Main {
 		for(int i = curr + 1; i <= N; i++) {
 			// 고르기
 			isStart[i] = true;
-			visited[i] = true;
+			
+			// 조합은 어짜피 경우의 수 트리 양갈래로 내려가서
+			// curr를 고른 경우를 쭉 하고
+			// curr를 안 고른 경우를 쭉 하니까
+			// visited가 필요 없다
+			// visited[i] = true;
+			
 			combi(chosen + 1, i);
 			
 			// 원상복귀
 			isStart[i] = false;
-			visited[i] = false;
 		}
 		
 	}
