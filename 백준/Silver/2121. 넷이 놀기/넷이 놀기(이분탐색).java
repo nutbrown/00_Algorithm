@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.StringTokenizer;
 
+// 메모리 140964 KB, 시간 1844 ms
 public class Main {
 	static int N;
 	static int[][] arr;
