@@ -1,84 +1,56 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayDeque;
+import java.util.LinkedList;
 import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.Scanner;
 
 public class Main {
-	static int K;
-	static int W;
-	static int H;
-	static boolean[][] map;
-	// 최소한의 값으로 이동
-	static int min = -1;
-	
-	// 말처럼 이동하는 것
-	static int[] hr = {1, 2, 2, 1, -1, -2, -2, -1};
-	static int[] hc = {2, 1, -1, -2, -2, -1, 1, 2};
-	
-	// 인접하게 이동하는 것
-	static int[] dr = {0, 1, 0, -1};
-	static int[] dc = {1, 0, -1, 0};
-	
-	static Queue<Node> q;
-	static boolean[][][] visited;
-	
-	// 배열이 아니라 객체 선언으로 메모리초과 해결
-	static class Node {
-		int r;
-		int c;
-		int horse;
-		int cnt;
-		
-		Node(int r, int c, int horse, int cnt) {
-			this.r = r;
-			this.c = c;
-			this.horse = horse;
-			this.cnt = cnt;   
-		}
-	}
-	
-	public static void main(String[] args) throws IOException {
-    	BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+	// 메모리 133584KB, 시간 1136 ms
+	public static void main(String[] args) {
+    	Scanner sc = new Scanner(System.in);
     	
     	// 원숭이는 K번만 말처럼 움직일 수 있다
-    	K = Integer.parseInt(br.readLine());
+    	int K = sc.nextInt();
     	
     	// 가로길이 열 W, 세로길이 행 H
-    	StringTokenizer st = new StringTokenizer(br.readLine());
-    	W = Integer.parseInt(st.nextToken());
-    	H = Integer.parseInt(st.nextToken());
+    	int W = sc.nextInt();
+    	int H = sc.nextInt();
     	
     	// 0은 평지, 1은 장애물
-    	map = new boolean[H][W];
+    	boolean[][] map = new boolean[H][W];
     	for(int i = 0; i < H; i++) {
-        	st = new StringTokenizer(br.readLine());
     		for(int j = 0; j < W; j++) {
-    			int in = Integer.parseInt(st.nextToken());
+    			int in = sc.nextInt();
     			if(in == 1) map[i][j] = true;
     			else map[i][j] = false;
     		}
     	}
     	
+    	// 최소한의 값으로 이동
+    	int min = -1;
+    	
+    	// 말처럼 이동하는 것
+    	int[] hr = {1, 2, 2, 1, -1, -2, -2, -1};
+    	int[] hc = {2, 1, -1, -2, -2, -1, 1, 2};
+    	
+    	// 인접하게 이동하는 것
+    	int[] dr = {0, 1, 0, -1};
+    	int[] dc = {1, 0, -1, 0};
     	
     	// (0, 0)에서 (W-1, H-1)까지 가야한다
-    	q = new ArrayDeque<>();
+    	Queue<int[]> q = new LinkedList<>();
     	
     	// 벽 부수고 이동이랑 비슷 : 0번부터 K번 사용한 visited
-    	visited = new boolean[H][W][K + 1];
+    	boolean[][][] visited = new boolean[H][W][K + 1];
     	
     	// 0, 0에서 시작해서 말처럼 0번 이동했고, 동작수는 0번
-    	q.add(new Node(0, 0, 0, 0));
+    	q.add(new int[] {0, 0, 0, 0});
     	visited[0][0][0] = true;
     	
     	
     	while(!q.isEmpty()) {
-    		Node node = q.poll();
-    		int cr = node.r;
-    		int cc = node.c;
-    		int horse = node.horse;
-    		int cnt = node.cnt;
+    		int cr = q.peek()[0];
+    		int cc = q.peek()[1];
+    		int horse = q.peek()[2];
+    		int cnt = q.poll()[3];
     		
     		// 도착점에 도착했다면 -> 이게 최소니까 끝
     		// 굳이 Math.min 할 필요 없다
@@ -95,11 +67,14 @@ public class Main {
     				int nc = cc + hc[d];
     				
     				if(nr < 0 || nr >= H || nc < 0 || nc >= W) continue;
+    				// **메모리초과이유
+    				// horse + 1에서 visited를 찾아줘야 하는데
+    				// horse에서 visited를 찾아주고 있었다
     				if(visited[nr][nc][horse + 1]) continue;
     				// 방해물이 있는 곳에는 갈 수 없다
     				if(map[nr][nc]) continue;
     				
-    				q.add(new Node(nr, nc, horse + 1, cnt + 1));
+    				q.add(new int[] {nr, nc, horse + 1, cnt + 1});
     				visited[nr][nc][horse + 1] = true;
     			}
     		}
@@ -113,7 +88,7 @@ public class Main {
     			if(visited[nr][nc][horse]) continue;
 				if(map[nr][nc]) continue;
     			
-				q.add(new Node(nr, nc, horse, cnt + 1));
+    			q.add(new int[] {nr, nc, horse, cnt + 1});
     			visited[nr][nc][horse] = true;
     		}
     	}
