@@ -11,7 +11,7 @@ public class Main {
     	// 랜선 길이
     	int[] arr = new int[K];
 
-    	// 랜선 길이 최댓값
+    	// 랜선 길이 최댓값 **이게 왜 int면 안되지
     	long max = 0;
     	
     	for(int i = 0; i < K; i++) {
@@ -35,7 +35,7 @@ public class Main {
     		// t의 길이로 일정하게 자를 때 총 몇 개인지
     		long sum = 0;
     		for(int i = 0; i < K; i++) {
-    			sum += (arr[i] / mid);
+    			sum += arr[i] / mid;
     		}
 
         	// 5 4 4 [4] 3 3 2 1 - 증가하는 방향이 반대다
