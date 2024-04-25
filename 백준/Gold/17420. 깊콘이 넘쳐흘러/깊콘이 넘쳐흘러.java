@@ -1,56 +1,81 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class Main {
-	public static void main(String[] args) {
-		Scanner sc = new Scanner(System.in);
+	public static void main(String[] args) throws IOException {
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		
 		// 기프티콘 N개
-		int N = sc.nextInt();
+		int N = Integer.parseInt(br.readLine());
 		
 		// 기프티콘 남은 기한 a일, 기프티콘 사용하는 날 b일
 		int[][] arr = new int[N][2];
 		for(int j = 0; j < 2; j++) {
+			StringTokenizer st = new StringTokenizer(br.readLine());
 			for(int i = 0; i < N; i++) {
-				arr[i][j] = sc.nextInt();
+				arr[i][j] = Integer.parseInt(st.nextToken());
 			}
 		}
 
 		Arrays.sort(arr, new Comparator<int[]>() {
 			
 			public int compare(int[] o1, int[] o2) {
-				// 사용하는 날이 빠른순으로
-				return o1[1] - o2[1];
+				if(o1[1] != o2[1]) {
+					// 사용하는 날이 빠른순으로
+					return o1[1] - o2[1];
+				} else {
+					// 사용하는 날이 같으면 기한이 빠른순으로
+					return o1[0] - o2[0];
+				}
 			}
 		});
 		
+		
 		// 최소 횟수로 30일 기한연장을 하면서 다 쓰기
 		long cnt = 0;
+		
+		// 마지막 기한 저장
+		int limit = 0;
+		
+		// 같은 구간 기한 저장
+		int templimit = 0;
 		
 		// b일에 그 기프티콘을 쓸 건데, 그게 제일 기한이 적게 남아야한다
 		for(int i = 0; i < N; i++) {
 			
 			// 기프티콘을 쓸 건데 기한이 오늘 이전이야
-			while(arr[i][0] < arr[i][1]) {
-				arr[i][0] += 30;
-				cnt++;
+			// while을 안 쓴다고 빨라지지 않던데...
+			if(arr[i][0] < arr[i][1]) {
+				int x = (arr[i][1] - arr[i][0]) / 30;
+				if((arr[i][1] - arr[i][0]) % 30 != 0) x++;
+				arr[i][0] += 30 * x;
+				cnt += x;
 			}
 			
-			// 이 기프티콘 기한이 가장 작아야한다
-			for(int j = i + 1; j < N; j++) {
-				// 기한이 같을 때는 상관없다
-				if(arr[j][1] == arr[i][1]) continue;
-				
-				// 뒤에꺼가 더 작으면, 이상이 되도록 연장시키기
-				while(arr[j][0] < arr[i][0]) {
-					arr[j][0] += 30;
-					cnt++;
-				}
+			// 마지막 기한보다 커야한다 
+			if(arr[i][0] < limit) {
+				int x = (limit - arr[i][0]) / 30;
+				if((limit - arr[i][0]) % 30 != 0) x++;
+				arr[i][0] += 30 * x;
+				cnt += x;
 			}
 			
-			// 이제 그 기프티콘 사용하고 넘어가기
-//			System.out.println(arr[i][1] + " " + cnt);
+			// 이제 그 기프티콘 사용하고 넘어갈 건데
+			if(i != N - 1 && arr[i + 1][1] == arr[i][1]) {
+				// 뒤에 같은 날이 있으면 구간에만 저장
+				templimit = Math.max(templimit, arr[i][0]);
+			} else {
+				// 뒤에 다른 날이 있으면 기한 갱신
+				limit = Math.max(arr[i][0], templimit);
+			}
+			
+			
+			
+//			System.out.println(arr[i][1] + " " + cnt + " " + limit);
 //			for(int j = 0; j < 2; j++) {
 //				for(int ii = 0; ii < N; ii++) {
 //					System.out.print(arr[ii][j] + " ");
