@@ -37,7 +37,7 @@ public class Main {
 		// 새로 들어온 거 1개 고르고 + 1개씩 고르기 -> n개
 		// 새로 들어온 거 1개 고르고 + 나머지 원래대로 고르기 -> e개
 		// 새로 들어온 거 안 고르고 + 나머지 원래대로 고르기 -> e개
-		// 200,000개 만들어두지뭐
+		// 200,000개 만들어두지뭐 *** mod 해두기
 		long[] combi = new long[200001];
 		for(int i = 2; i <= 200000; i++) {
 			combi[i] = (combi[i - 1] * 2 + (i - 1)) % mod;
@@ -46,8 +46,7 @@ public class Main {
 		long cnt = 0;
 		for(int i = 1; i + 2 < N; i++) {
 			if(arr[i] == 'H') {
-				// 곱할 때는 mod하면 안 되지
-				cnt += (prefixW[i] % mod) * combi[suffixE[i]];
+				cnt += prefixW[i] * combi[suffixE[i]];
 				cnt %= mod;
 			}
 		}
