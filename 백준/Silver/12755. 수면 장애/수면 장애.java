@@ -14,6 +14,9 @@ public class Main{
 		// 10 * 9
 		// 100 * 9
 		int len = 1;
+		
+		// Math.pow를 그냥 하면 10.0 이렇게 나오는 거 아는데
+		// len*9 했을 때 어짜피 없어지지 않나.........아오오 3시반부터 1시간을 했네
 		while((N - len * 9 * (long)Math.pow(10, len - 1)) > 0) {
 			
 			N -= len * 9 * (long)Math.pow(10, len - 1);
@@ -46,6 +49,5 @@ public class Main{
 		
 		String strNumber = String.valueOf((long)Math.pow(10, len - 1) + number);
 		System.out.println(strNumber.charAt((N - 1) % len));
-
 	}
 }
